@@ -3,363 +3,2364 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="KUKU - AI智能玩伴与家庭早教机器人品牌">
 <title>KUKU</title>
+<link rel="preconnect" href="https://picsum.photos">
+<link rel="dns-prefetch" href="https://picsum.photos">
 <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html {
+    scroll-behavior: smooth;
+    contain: layout style paint;
   }
-  body {
-    font-family: "Microsoft YaHei", sans-serif;
+  body { 
+    font-family: "Microsoft YaHei", sans-serif; 
     overflow-x: hidden;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
   }
 
-  /* 板块1：KUKU */
-  .section-cover {
+  /* 固定左上角 Logo - 楷书对角线分割 */
+  .fixed-logo {
+    position: fixed;
+    top: 20px;
+    left: 30px;
+    z-index: 9999;
+    font-size: 144px;
+    font-weight: 600;
+    font-family: 'KaiTi', 'STKaiti', 'BiauKai', '楷体', serif;
+    letter-spacing: 12px;
+    color: transparent;
+    pointer-events: none;
+    transform: none !important;
+    will-change: auto;
+  }
+  .fixed-logo span {
+    position: relative;
+    display: inline-block;
+    pointer-events: auto;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  .fixed-logo span::before {
+    content: 'KUKU';
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 100vh;
-    background: url("https://picsum.photos/1920/1080?random=100") center/cover no-repeat;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    color: #fff;
-    text-align: center;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    height: 100%;
+    overflow: hidden;
+    color: #2F4F4F;
+    clip-path: polygon(0 0, 100% 0, 0 100%);
   }
-  .section-cover h1 {
-    font-size: 100px;
-    margin-bottom: 16px;
+  .fixed-logo span::after {
+    content: 'KUKU';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    color: #228B22;
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
   }
-  .section-cover p {
-    font-size: 50px;
+  .fixed-logo span:hover {
+    transform: scale(1.05);
   }
 
-  /* 板块2：1/3屏高 店铺简介 */
-  .section-store {
+  /* 板块1：全屏轮播 - 视差基础 */
+  .section-slider { 
+    width: 100%; 
+    height: 100vh; 
+    position: relative; 
+    overflow: hidden; 
+    background: #111;
+    transform: translateZ(0);
+    will-change: transform;
+  }
+  .slider-bg { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity 0.8s ease; }
+  .slider-bg.active { opacity: 1; }
+  .slider-dots { position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%); display: flex; gap: 20px; z-index: 3; }
+  .slider-dot { width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.5); cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .slider-dot.active { background: rgba(255,255,255,0.9); border-color: #fff; transform: scale(1.1); }
+  .slider-dot img { width: 80%; height: 80%; object-fit: cover; }
+
+  /* 融合板块：品牌介绍 + 产品文化（带斜切线分隔）- 视差 */
+  .section-about {
     width: 100%;
-    height: 25vh;
-    background: #f8f8f8;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 40px;
+    position: relative;
+    overflow: hidden;
+    transform: translateZ(-1px) scale(2);
+    z-index: -1;
+  }
+  
+  /* 上半部分 - 店铺介绍 */
+  .about-store {
+    position: relative;
+    padding: 40px 20px 80px;
+    background: linear-gradient(135deg, #2F4F4F 0%, #1a3a3a 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    z-index: 2;
+  }
+  .about-store::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></svg>');
+    background-size: 100px 100px;
+    opacity: 0.5;
   }
   .store-content {
+    position: relative;
     max-width: 900px;
+    margin: 0 auto;
+    color: #fff;
     text-align: center;
-    color: #333;
   }
   .store-content h2 {
-    font-size: 20px;
-    margin-bottom: 12px;
+    font-size: 18px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    line-height: 1.5;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2);
   }
   .store-content p {
-    font-size: 16px;
-    line-height: 1.7;
-  }
-
-  /* 板块3：视频区 */
-  .section-video {
-    width: 100%;
-    padding: 60px 20px;
-    background: #fff;
-    text-align: center;
-  }
-  .section-video h2 {
-    margin-bottom: 30px;
-    color: #222;
-  }
-  .video-wrapper {
-    max-width: 900px;
+    font-size: 14px;
+    line-height: 1.6;
+    opacity: 0.95;
+    max-width: 700px;
     margin: 0 auto;
   }
-  video {
-    width: 100%;
-    border-radius: 8px;
+  
+  /* 下半部分 - 产品文化 */
+  .about-culture {
+    position: relative;
+    padding: 70px 20px 50px;
+    background: linear-gradient(135deg, #228B22 0%, #1a6b1a 100%);
+    margin-top: -50px;
+    z-index: 1;
   }
-
-  /* 板块4：1/2屏高 材质/文化介绍 */
-  .section-intro {
-    width: 100%;
-    height: 50vh;
-    background: #f0f0f0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 40px;
+  .about-culture::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><polygon points="50,10 90,90 10,90" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></svg>');
+    background-size: 80px 80px;
+    opacity: 0.5;
   }
-  .intro-content {
+  .culture-content {
+    position: relative;
     max-width: 900px;
-    color: #333;
-  }
-  .intro-content h2 {
-    font-size: 30px;
-    margin-bottom: 20px;
+    margin: 0 auto;
+    color: #fff;
     text-align: center;
   }
-  .intro-content p {
-    font-size: 17px;
-    line-height: 1.8;
-    margin-bottom: 12px;
+  .culture-content h2 {
+    font-size: 16px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    line-height: 1.5;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  }
+  .culture-content p {
+    font-size: 13px;
+    line-height: 1.6;
+    opacity: 0.95;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  
+  /* 斜切分隔线装饰 */
+  .diagonal-divider {
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(135deg, #2F4F4F 0%, #1a3a3a 50%, #228B22 50%, #1a6b1a 100%);
+    transform: skewY(-3deg);
+    z-index: 3;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
   }
 
-  /* 板块5：泡泡玛特风格轮播（和你第一张图一致） */
-  .section-slider {
-    width: 100%;
-    height: 100vh;
+  /* 板块4：仓库图片 */
+  .section-warehouse { 
+    width: 100%; 
+    padding: 60px 20px; 
+    background: #FFF9C4; 
+    text-align: center;
     position: relative;
-    overflow: hidden;
-    background: #111;
+    transform: translateZ(-0.5px) scale(1.5);
   }
-  .slider-bg {
-    position: absolute;
-    inset: 0;
-    background-size: cover;
-    background-position: center;
-    opacity: 0;
-    transition: opacity 0.8s ease;
-  }
-  .slider-bg.active {
-    opacity: 1;
-  }
-  .slider-content {
-    position: relative;
-    z-index: 2;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.6);
-  }
-  .slider-avatar {
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid #fff;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  }
-  .slider-dots {
-    position: absolute;
-    bottom: 60px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 20px;
-    z-index: 3;
-  }
-  .slider-dot {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.2);
-    border: 2px solid rgba(255,255,255,0.5);
+  .warehouse-content h2 { font-size: 28px; margin-bottom: 30px; color: #333; }
+  .warehouse-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
+  .warehouse-item { 
+    height: 200px; 
+    border-radius: 8px; 
+    overflow: hidden; 
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
   }
-  .slider-dot.active {
-    background: rgba(255,255,255,0.9);
-    border-color: #fff;
+  .warehouse-item:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+  }
+  .warehouse-item img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    transition: transform 0.5s ease;
+  }
+  .warehouse-item:hover img {
     transform: scale(1.1);
   }
-  .slider-dot img {
-    width: 80%;
-    height: 80%;
-    object-fit: cover;
+
+  /* 板块5：价格对比折线图 - 视差 */
+  .section-price { 
+    width: 100%; 
+    padding: 60px 20px; 
+    background: #fff;
+    position: relative;
+    transform: translateZ(0.5px) scale(0.9);
+  }
+  .price-content { max-width: 900px; margin: 0 auto; }
+  .price-content h2 { font-size: 28px; text-align: center; margin-bottom: 30px; color: #333; }
+
+  /* 板块6：沉浸式液体交互板块 - 视差 */
+  .section-liquid { 
+    width: 100%; 
+    padding: 40px 20px; 
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); 
+    overflow: hidden;
+    position: relative;
+    transform: translateZ(-0.3px) scale(1.3);
+  }
+  .liquid-title {
+    text-align: center;
+    color: #fff;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    letter-spacing: 1px;
+  }
+  .section-liquid::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(47, 79, 79, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(0, 206, 209, 0.2) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .liquid-container {
+    max-width: 800px;
+    height: 400px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: 40px;
+    background: linear-gradient(180deg, 
+      rgba(44, 62, 80, 0.9) 0%, 
+      rgba(26, 26, 46, 0.95) 50%, 
+      rgba(15, 52, 96, 0.9) 100%);
+    border: 3px solid rgba(255,255,255,0.15);
+    box-shadow: 
+      inset 0 0 100px rgba(0,0,0,0.6),
+      0 25px 80px rgba(0,0,0,0.4),
+      0 0 0 1px rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+  }
+  /* 液体球体 - 增强版 */
+  .liquid-drop {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(0.3px);
+    animation: liquidMove 10s ease-in-out infinite, liquidMorph 5s ease-in-out infinite alternate, liquidGlow 3s ease-in-out infinite alternate;
+    box-shadow: 
+      inset -15px -15px 30px rgba(0,0,0,0.4),
+      inset 15px 15px 30px rgba(255,255,255,0.25),
+      0 8px 25px rgba(0,0,0,0.4),
+      0 0 30px rgba(255,255,255,0.1);
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+  .liquid-drop::before {
+    content: '';
+    position: absolute;
+    top: 15%;
+    left: 20%;
+    width: 25%;
+    height: 20%;
+    background: radial-gradient(ellipse at center, rgba(255,255,255,0.6) 0%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(2px);
+    animation: highlightMove 4s ease-in-out infinite;
+  }
+  @keyframes highlightMove {
+    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+    50% { transform: translate(10px, 5px) scale(1.1); opacity: 0.8; }
+  }
+  .liquid-drop:hover {
+    animation-play-state: paused;
+  }
+  .liquid-drop:active {
+    animation-play-state: paused;
+  }
+  @keyframes liquidGlow {
+    0%, 100% { filter: brightness(1) saturate(1); }
+    50% { filter: brightness(1.1) saturate(1.1); }
+  }
+  /* 文字效果 - 无框 */
+  .liquid-drop::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    opacity: 0;
+    pointer-events: none;
+    white-space: nowrap;
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    backdrop-filter: none;
+    border: none;
+    box-shadow: none;
+  }
+  .liquid-drop:hover::after {
+    animation: textBubbleEnhanced 2.5s ease-out forwards;
+  }
+  @keyframes textBubbleEnhanced {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.3);
+    }
+    15% {
+      opacity: 1;
+      transform: translate(-50%, -100%) scale(1.3);
+    }
+    40% {
+      opacity: 1;
+      transform: translate(-50%, -140%) scale(1);
+    }
+    70% {
+      opacity: 0.6;
+      transform: translate(-50%, -180%) scale(0.9);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(-50%, -220%) scale(0.6);
+    }
+  }
+  .drop1 {
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle at 30% 30%, #4a7c7c 0%, #2F4F4F 40%, #1a3a3a 100%);
+    left: 15%;
+    top: 30%;
+    animation-delay: 0s;
+  }
+  .drop1::after {
+    content: 'Wholesale';
+    color: #0d2020;
+  }
+  .drop2 {
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle at 30% 30%, #40E0D0 0%, #20B2AA 40%, #008B8B 100%);
+    left: 35%;
+    top: 50%;
+    animation-delay: -2s;
+  }
+  .drop2::after {
+    content: 'Retail';
+    color: #004d4d;
+  }
+  .drop3 {
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle at 30% 30%, #2F4F4F 0%, #1a3a3a 50%, #0d2020 100%);
+    left: 55%;
+    top: 25%;
+    animation-delay: -4s;
+  }
+  .drop3::after {
+    content: 'Wholesale';
+    color: #0d2020;
+  }
+  .drop4 {
+    width: 110px;
+    height: 110px;
+    background: radial-gradient(circle at 30% 30%, #00CED1 0%, #20B2AA 40%, #228B22 100%);
+    left: 70%;
+    top: 45%;
+    animation-delay: -6s;
+  }
+  .drop4::after {
+    content: 'Retail';
+    color: #004d4d;
+  }
+  .drop5 {
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle at 30% 30%, #3a6b6b 0%, #2F4F4F 50%, #1a3a3a 100%);
+    left: 45%;
+    top: 15%;
+    animation-delay: -1s;
+  }
+  .drop5::after {
+    content: 'Wholesale';
+    color: #0d2020;
+  }
+  .drop6 {
+    width: 70px;
+    height: 70px;
+    background: radial-gradient(circle at 30% 30%, #48D1CC 0%, #20B2AA 50%, #008B8B 100%);
+    left: 25%;
+    top: 60%;
+    animation-delay: -3s;
+  }
+  .drop6::after {
+    content: 'Retail';
+    color: #004d4d;
+  }
+  .drop7 {
+    width: 90px;
+    height: 90px;
+    background: radial-gradient(circle at 30% 30%, #3a6363 0%, #2F4F4F 40%, #1a3a3a 100%);
+    left: 5%;
+    top: 55%;
+    animation-delay: -5s;
+  }
+  .drop7::after {
+    content: 'Wholesale';
+    color: #0d2020;
+  }
+  .drop8 {
+    width: 75px;
+    height: 75px;
+    background: radial-gradient(circle at 30% 30%, #40E0D0 0%, #20B2AA 40%, #008B8B 100%);
+    left: 80%;
+    top: 20%;
+    animation-delay: -1s;
+  }
+  .drop8::after {
+    content: 'Retail';
+    color: #004d4d;
+  }
+  .drop9 {
+    width: 65px;
+    height: 65px;
+    background: radial-gradient(circle at 30% 30%, #2F4F4F 0%, #1a3a3a 50%, #0d2020 100%);
+    left: 45%;
+    top: 5%;
+    animation-delay: -6s;
+  }
+  .drop9::after {
+    content: 'Wholesale';
+    color: #0d2020;
+  }
+  .drop10 {
+    width: 85px;
+    height: 85px;
+    background: radial-gradient(circle at 30% 30%, #00CED1 0%, #20B2AA 40%, #228B22 100%);
+    left: 65%;
+    top: 65%;
+    animation-delay: -2s;
+  }
+  .drop10::after {
+    content: 'Retail';
+    color: #004d4d;
+  }
+  .drop11 {
+    width: 55px;
+    height: 55px;
+    background: radial-gradient(circle at 30% 30%, #4a7c7c 0%, #2F4F4F 50%, #1a3a3a 100%);
+    left: 85%;
+    top: 55%;
+    animation-delay: -4s;
+  }
+  .drop11::after {
+    content: 'Wholesale';
+    color: #0d2020;
+  }
+  .drop12 {
+    width: 95px;
+    height: 95px;
+    background: radial-gradient(circle at 30% 30%, #48D1CC 0%, #20B2AA 50%, #008B8B 100%);
+    left: 10%;
+    top: 10%;
+    animation-delay: -7s;
+  }
+  .drop12::after {
+    content: 'Retail';
+    color: #004d4d;
+  }
+  .drop13 {
+    width: 85px;
+    height: 85px;
+    background: radial-gradient(circle at 30% 30%, #3a5f5f 0%, #2F4F4F 40%, #1a3a3a 100%);
+    left: 5%;
+    top: 35%;
+    animation-delay: -8s;
+  }
+  .drop13::after {
+    content: 'Wholesale';
+    color: #0d2020;
+  }
+  .drop14 {
+    width: 70px;
+    height: 70px;
+    background: radial-gradient(circle at 30% 30%, #30D0C0 0%, #20B2AA 40%, #008B8B 100%);
+    left: 50%;
+    top: 60%;
+    animation-delay: -3.5s;
+  }
+  .drop14::after {
+    content: 'Retail';
+    color: #004d4d;
+  }
+  .drop15 {
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle at 30% 30%, #2a4a4a 0%, #1a3a3a 50%, #0d2020 100%);
+    left: 75%;
+    top: 10%;
+    animation-delay: -6.5s;
+  }
+  .drop15::after {
+    content: 'Wholesale';
+    color: #0d2020;
+  }
+  .drop16 {
+    width: 90px;
+    height: 90px;
+    background: radial-gradient(circle at 30% 30%, #38E0D0 0%, #20B2AA 50%, #008B8B 100%);
+    left: 30%;
+    top: 5%;
+    animation-delay: -2.5s;
+  }
+  .drop16::after {
+    content: 'Retail';
+    color: #004d4d;
+  }
+  @keyframes liquidMove {
+    0%, 100% { 
+      transform: translate(0, 0) rotate(0deg) scale(1);
+    }
+    20% { 
+      transform: translate(30px, -20px) rotate(72deg) scale(1.1, 0.9);
+    }
+    40% { 
+      transform: translate(-20px, 30px) rotate(144deg) scale(0.9, 1.1);
+    }
+    60% { 
+      transform: translate(40px, 20px) rotate(216deg) scale(1.05, 0.95);
+    }
+    80% { 
+      transform: translate(-30px, -30px) rotate(288deg) scale(0.95, 1.05);
+    }
+  }
+  @keyframes liquidMorph {
+    0% { 
+      border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
+    }
+    25% { 
+      border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
+    }
+    50% { 
+      border-radius: 45% 55% 60% 40% / 55% 45% 60% 40%;
+    }
+    75% { 
+      border-radius: 55% 45% 40% 60% / 60% 40% 55% 45%;
+    }
+    100% { 
+      border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
+    }
+  }
+  /* 小气泡 - 增强版 */
+  .bubble {
+    position: absolute;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+    border-radius: 50%;
+    z-index: 5;
+    box-shadow: 0 0 10px rgba(255,255,255,0.3);
+    animation: bubbleFloatEnhanced 5s ease-out infinite;
+  }
+  .bubble1 { width: 12px; height: 12px; left: 10%; bottom: 5%; animation-delay: 0s; }
+  .bubble2 { width: 8px; height: 8px; left: 25%; bottom: 15%; animation-delay: 0.8s; }
+  .bubble3 { width: 15px; height: 15px; left: 45%; bottom: 8%; animation-delay: 1.6s; }
+  .bubble4 { width: 6px; height: 6px; left: 65%; bottom: 20%; animation-delay: 2.4s; }
+  .bubble5 { width: 10px; height: 10px; left: 80%; bottom: 10%; animation-delay: 3.2s; }
+  .bubble6 { width: 7px; height: 7px; left: 90%; bottom: 25%; animation-delay: 4s; }
+  @keyframes bubbleFloatEnhanced {
+    0% { 
+      transform: translateY(0) translateX(0) scale(1) rotate(0deg); 
+      opacity: 0; 
+    }
+    10% {
+      opacity: 0.8;
+    }
+    25% {
+      transform: translateY(-80px) translateX(15px) scale(0.9) rotate(90deg);
+      opacity: 0.7;
+    }
+    50% { 
+      transform: translateY(-160px) translateX(-10px) scale(0.7) rotate(180deg); 
+      opacity: 0.5; 
+    }
+    75% {
+      transform: translateY(-240px) translateX(20px) scale(0.5) rotate(270deg);
+      opacity: 0.3;
+    }
+    100% { 
+      transform: translateY(-320px) translateX(0) scale(0.3) rotate(360deg); 
+      opacity: 0; 
+    }
+  }
+  #priceChart { width: 100%; height: 400px; }
+
+  /* 板块6：底部 */
+  .section-footer { width: 100%; background: #222; color: #fff; padding: 40px 20px; }
+  .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 30px; }
+  .footer-logo { width: 120px; height: 40px; background: #fff; color: #222; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+  .footer-links { display: flex; gap: 20px; flex-wrap: wrap; font-size: 14px; }
+  .footer-links a { color: #ccc; text-decoration: none; }
+  .footer-links a:hover { color: #fff; }
+  .footer-contact { font-size: 14px; color: #ccc; line-height: 1.8; }
+  .footer-copyright { text-align: center; margin-top: 20px; font-size: 12px; color: #888; }
+
+  /* ==================== 交互动画 ==================== */
+  /* 滚动显示动画 */
+  .scroll-hidden {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fade-in-up {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* 波纹动画 */
+  @keyframes rippleEffect {
+    to {
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+  
+  /* 脉冲动画 */
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  
+  /* 摇摆动画 */
+  @keyframes swing {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    75% { transform: rotate(-5deg); }
+  }
+  
+  /* 闪烁动画 */
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  
+  /* 悬浮动画 */
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  /* 旋转动画 */
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  /* 弹跳动画 */
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+  
+  /* 摇晃动画 */
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+  
+  /* 呼吸动画 */
+  @keyframes breathe {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+  
+  /* 渐变流动动画 */
+  @keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  /* 闪烁光效 */
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
+  }
+  
+  /* 波浪动画 */
+  @keyframes wave {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-5px) rotate(2deg); }
+    75% { transform: translateY(5px) rotate(-2deg); }
+  }
+  
+  /* 心跳动画 */
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    14% { transform: scale(1.1); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.1); }
+    70% { transform: scale(1); }
+  }
+  
+  /* 滑入动画 */
+  @keyframes slideIn {
+    from { transform: translateX(-100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+  
+  /* 滑出动画 */
+  @keyframes slideOut {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+  }
+  
+  /* 缩放动画 */
+  @keyframes scaleIn {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  
+  /* 翻转动画 */
+  @keyframes flip {
+    0% { transform: perspective(400px) rotateY(0); }
+    100% { transform: perspective(400px) rotateY(360deg); }
+  }
+  
+  /* 弹性动画 */
+  @keyframes elastic {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.25); }
+    50% { transform: scale(0.9); }
+    70% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  
+  /* 模糊淡入动画 */
+  @keyframes blurIn {
+    from { filter: blur(10px); opacity: 0; }
+    to { filter: blur(0); opacity: 1; }
+  }
+  
+  /* 颜色变换动画 */
+  @keyframes hueRotate {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+  }
+  
+  /* 阴影脉冲动画 */
+  @keyframes shadowPulse {
+    0%, 100% { box-shadow: 0 0 5px rgba(0,0,0,0.3); }
+    50% { box-shadow: 0 0 20px rgba(0,0,0,0.6); }
+  }
+  
+  /* 边框流动动画 */
+  @keyframes borderFlow {
+    0% { border-color: #2F4F4F; }
+    50% { border-color: #228B22; }
+    100% { border-color: #2F4F4F; }
+  }
+  
+  /* 文字打印动画 */
+  @keyframes typewriter {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+  
+  /* 光标闪烁动画 */
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  
+  /* 3D翻转动画 */
+  @keyframes flip3D {
+    0% { transform: perspective(1000px) rotateX(0); }
+    100% { transform: perspective(1000px) rotateX(360deg); }
+  }
+  
+  /* 果冻动画 */
+  @keyframes jelly {
+    0%, 100% { transform: scale(1, 1); }
+    25% { transform: scale(0.9, 1.1); }
+    50% { transform: scale(1.1, 0.9); }
+    75% { transform: scale(0.95, 1.05); }
+  }
+  
+  /* 弹簧动画 */
+  @keyframes spring {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.3); }
+    50% { transform: scale(0.9); }
+    70% { transform: scale(1.1); }
+    90% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+  }
+  
+  /* 摇摆淡入动画 */
+  @keyframes swingIn {
+    0% { transform: rotate(-30deg) scale(0); opacity: 0; }
+    50% { transform: rotate(10deg) scale(1.1); }
+    100% { transform: rotate(0) scale(1); opacity: 1; }
+  }
+  
+  /* 闪烁星星动画 */
+  @keyframes starTwinkle {
+    0%, 100% { opacity: 0.3; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
+  }
+  
+  /* 液体流动动画 */
+  @keyframes liquidFlow {
+    0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    25% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+    50% { border-radius: 50% 60% 30% 60% / 30% 60% 70% 40%; }
+    75% { border-radius: 60% 40% 60% 30% / 70% 30% 50% 60%; }
+  }
+  
+  /* 磁性吸附动画 */
+  @keyframes magnetic {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(5px, -5px); }
+    50% { transform: translate(-5px, 5px); }
+    75% { transform: translate(5px, 5px); }
+    100% { transform: translate(0, 0); }
+  }
+  
+  /* 霓虹灯闪烁动画 */
+  @keyframes neonFlicker {
+    0%, 100% { opacity: 1; text-shadow: 0 0 10px currentColor; }
+    50% { opacity: 0.8; text-shadow: 0 0 20px currentColor, 0 0 40px currentColor; }
+  }
+  
+  /* 粒子飞散动画 */
+  @keyframes particleScatter {
+    0% { transform: translate(0, 0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+  }
+  
+  /* 扫描线动画 */
+  @keyframes scanline {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+  }
+  
+  /* 故障效果动画 */
+  @keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+  }
+  
+  /* 彩虹文字动画 */
+  @keyframes rainbowText {
+    0% { color: #ff0000; }
+    17% { color: #ff8800; }
+    33% { color: #ffff00; }
+    50% { color: #00ff00; }
+    67% { color: #0088ff; }
+    83% { color: #8800ff; }
+    100% { color: #ff0000; }
+  }
+  
+  /* 浮动阴影动画 */
+  @keyframes floatingShadow {
+    0%, 100% { transform: translateY(0); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+    50% { transform: translateY(-10px); box-shadow: 0 25px 30px rgba(0,0,0,0.2); }
+  }
+  
+  /* 呼吸发光动画 */
+  @keyframes breatheGlow {
+    0%, 100% { box-shadow: 0 0 5px rgba(47, 79, 79, 0.5); }
+    50% { box-shadow: 0 0 30px rgba(47, 79, 79, 0.8), 0 0 60px rgba(0, 206, 209, 0.4); }
+  }
+  
+  /* 旋转缩放动画 */
+  @keyframes rotateScale {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.2); }
+    100% { transform: rotate(360deg) scale(1); }
+  }
+  
+  /* 弹性摇摆动画 */
+  @keyframes elasticSwing {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(15deg); }
+    50% { transform: rotate(-10deg); }
+    75% { transform: rotate(5deg); }
+  }
+  
+  /* 淡入缩放动画 */
+  @keyframes fadeInScale {
+    0% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: 0.8; transform: scale(1.1); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  
+  /* 滑动旋转动画 */
+  @keyframes slideRotate {
+    0% { transform: translateX(-100%) rotate(-90deg); opacity: 0; }
+    100% { transform: translateX(0) rotate(0); opacity: 1; }
+  }
+  
+  /* 脉冲发光动画 */
+  @keyframes pulseGlow {
+    0%, 100% { opacity: 0.6; filter: brightness(1); }
+    50% { opacity: 1; filter: brightness(1.3); }
+  }
+  
+  /* 波浪文字动画 */
+  @keyframes waveText {
+    0%, 100% { transform: translateY(0); }
+    25% { transform: translateY(-5px); }
+    75% { transform: translateY(5px); }
+  }
+  
+  /* 3D卡片翻转动画 */
+  @keyframes cardFlip {
+    0% { transform: perspective(1000px) rotateY(0); }
+    100% { transform: perspective(1000px) rotateY(180deg); }
+  }
+  
+  /* 渐变色流动动画 */
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  /* 抖动动画 */
+  @keyframes jitter {
+    0%, 100% { transform: translate(0, 0); }
+    10% { transform: translate(-2px, -2px); }
+    20% { transform: translate(2px, -2px); }
+    30% { transform: translate(-2px, 2px); }
+    40% { transform: translate(2px, 2px); }
+    50% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, -2px); }
+    70% { transform: translate(-2px, 2px); }
+    80% { transform: translate(2px, 2px); }
+    90% { transform: translate(-2px, -2px); }
+  }
+  
+  /* 悬浮旋转动画 */
+  @keyframes hoverRotate {
+    0% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(180deg); }
+    100% { transform: translateY(0) rotate(360deg); }
+  }
+  
+  /* 闪烁边框动画 */
+  @keyframes borderBlink {
+    0%, 100% { border-color: transparent; }
+    50% { border-color: rgba(255,255,255,0.5); }
+  }
+  
+  /* 文字阴影动画 */
+  @keyframes textShadow {
+    0%, 100% { text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+    50% { text-shadow: 4px 4px 8px rgba(0,0,0,0.5), 0 0 20px rgba(255,255,255,0.3); }
+  }
+  
+  /* 圆形扩散动画 */
+  @keyframes circleExpand {
+    0% { transform: scale(0); opacity: 1; }
+    100% { transform: scale(3); opacity: 0; }
+  }
+  
+  /* 摇摆缩放动画 */
+  @keyframes swingScale {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(5deg) scale(1.1); }
+    75% { transform: rotate(-5deg) scale(0.9); }
+  }
+  
+  /* 淡入滑动动画 */
+  @keyframes fadeSlide {
+    0% { opacity: 0; transform: translateX(-50px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+  
+  /* 脉冲缩放动画 */
+  @keyframes pulseScale {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+  }
+  
+  /* 旋转淡入动画 */
+  @keyframes rotateFadeIn {
+    0% { opacity: 0; transform: rotate(-180deg) scale(0.5); }
+    100% { opacity: 1; transform: rotate(0) scale(1); }
+  }
+  
+  /* 弹跳旋转动画 */
+  @keyframes bounceRotate {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-20px) rotate(90deg); }
+    50% { transform: translateY(0) rotate(180deg); }
+    75% { transform: translateY(-10px) rotate(270deg); }
+  }
+  
+  /* 模糊淡入动画 */
+  @keyframes blurFadeIn {
+    0% { filter: blur(20px); opacity: 0; transform: scale(0.8); }
+    100% { filter: blur(0); opacity: 1; transform: scale(1); }
+  }
+  
+  /* 弹性弹出动画 */
+  @keyframes elasticPop {
+    0% { transform: scale(0); opacity: 0; }
+    60% { transform: scale(1.1); opacity: 1; }
+    80% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+  }
+  
+  /* 摇摆淡入动画 */
+  @keyframes wobbleFadeIn {
+    0% { opacity: 0; transform: translateX(-100px) rotate(-30deg); }
+    60% { opacity: 1; transform: translateX(20px) rotate(10deg); }
+    80% { transform: translateX(-10px) rotate(-5deg); }
+    100% { transform: translateX(0) rotate(0); }
+  }
+  
+  /* 闪烁缩放动画 */
+  @keyframes flashScale {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.2); }
+  }
+  
+  /* 滑动旋转淡入动画 */
+  @keyframes slideRotateFadeIn {
+    0% { opacity: 0; transform: translateY(50px) rotate(-45deg); }
+    100% { opacity: 1; transform: translateY(0) rotate(0); }
+  }
+  
+  /* 心跳缩放动画 */
+  @keyframes heartbeatScale {
+    0%, 100% { transform: scale(1); }
+    10% { transform: scale(1.1); }
+    20% { transform: scale(1); }
+    30% { transform: scale(1.1); }
+    40% { transform: scale(1); }
+  }
+  
+  /* 浮动旋转缩放动画 */
+  @keyframes floatRotateScale {
+    0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+    33% { transform: translateY(-15px) rotate(120deg) scale(1.1); }
+    66% { transform: translateY(-5px) rotate(240deg) scale(0.9); }
+  }
+  
+  /* 渐变透明度动画 */
+  @keyframes gradientOpacity {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+  
+  /* 阴影移动动画 */
+  @keyframes shadowMove {
+    0%, 100% { box-shadow: 5px 5px 15px rgba(0,0,0,0.3); }
+    50% { box-shadow: -5px 5px 15px rgba(0,0,0,0.3); }
+  }
+  
+  /* 文字间距动画 */
+  @keyframes letterSpacing {
+    0%, 100% { letter-spacing: 0; }
+    50% { letter-spacing: 5px; }
+  }
+  
+  /* 边框虚线流动动画 */
+  @keyframes borderDash {
+    0% { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: 100; }
+  }
+  
+  /* 径向渐变动画 */
+  @keyframes radialGradient {
+    0% { background: radial-gradient(circle at 30% 30%, #2F4F4F, #1a3a3a); }
+    50% { background: radial-gradient(circle at 70% 70%, #2F4F4F, #1a3a3a); }
+    100% { background: radial-gradient(circle at 30% 30%, #2F4F4F, #1a3a3a); }
+  }
+  
+  /* 倾斜摇摆动画 */
+  @keyframes skewSwing {
+    0%, 100% { transform: skewX(0deg); }
+    25% { transform: skewX(5deg); }
+    75% { transform: skewX(-5deg); }
+  }
+  
+  /* 缩放透明度动画 */
+  @keyframes scaleOpacity {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(0.95); opacity: 0.8; }
+  }
+  
+  /* 旋转透明度动画 */
+  @keyframes rotateOpacity {
+    0% { transform: rotate(0deg); opacity: 1; }
+    100% { transform: rotate(360deg); opacity: 0.5; }
+  }
+  
+  /* 脉冲旋转动画 */
+  @keyframes pulseRotate {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.1) rotate(180deg); }
+  }
+  
+  /* 滑动弹跳动画 */
+  @keyframes slideBounce {
+    0% { transform: translateX(-100%); }
+    60% { transform: translateX(10%); }
+    80% { transform: translateX(-5%); }
+    100% { transform: translateX(0); }
+  }
+  
+  /* 淡入弹跳动画 */
+  @keyframes fadeBounce {
+    0% { opacity: 0; transform: translateY(-30px); }
+    60% { opacity: 1; transform: translateY(10px); }
+    80% { transform: translateY(-5px); }
+    100% { transform: translateY(0); }
+  }
+  
+  /* 旋转弹跳动画 */
+  @keyframes rotateBounce {
+    0% { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(90deg) scale(1.2); }
+    50% { transform: rotate(180deg) scale(0.9); }
+    75% { transform: rotate(270deg) scale(1.1); }
+    100% { transform: rotate(360deg) scale(1); }
+  }
+  
+  /* 模糊弹跳动画 */
+  @keyframes blurBounce {
+    0% { filter: blur(0); transform: translateY(0); }
+    50% { filter: blur(2px); transform: translateY(-20px); }
+    100% { filter: blur(0); transform: translateY(0); }
+  }
+  
+  /* 颜色脉冲动画 */
+  @keyframes colorPulse {
+    0%, 100% { color: #2F4F4F; }
+    50% { color: #228B22; }
+  }
+  
+  /* 背景脉冲动画 */
+  @keyframes bgPulse {
+    0%, 100% { background-color: rgba(47, 79, 79, 0.8); }
+    50% { background-color: rgba(34, 139, 34, 0.8); }
+  }
+  
+  /* 边框脉冲动画 */
+  @keyframes borderPulse {
+    0%, 100% { border-width: 2px; border-color: #2F4F4F; }
+    50% { border-width: 4px; border-color: #228B22; }
+  }
+  
+  /* 文字脉冲动画 */
+  @keyframes textPulse {
+    0%, 100% { transform: scale(1); text-shadow: 0 0 5px currentColor; }
+    50% { transform: scale(1.05); text-shadow: 0 0 20px currentColor, 0 0 40px currentColor; }
+  }
+  
+  /* 浮动脉冲动画 */
+  @keyframes floatPulse {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-10px) scale(1.05); }
+  }
+  
+  /* 旋转脉冲动画 */
+  @keyframes rotatePulse {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.1); }
+  }
+  
+  /* 缩放脉冲动画 */
+  @keyframes scalePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+  }
+  
+  /* 透明度脉冲动画 */
+  @keyframes opacityPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  
+  /* 亮度脉冲动画 */
+  @keyframes brightnessPulse {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.3); }
+  }
+  
+  /* 饱和度脉冲动画 */
+  @keyframes saturatePulse {
+    0%, 100% { filter: saturate(1); }
+    50% { filter: saturate(1.5); }
+  }
+  
+  /* 对比度脉冲动画 */
+  @keyframes contrastPulse {
+    0%, 100% { filter: contrast(1); }
+    50% { filter: contrast(1.3); }
+  }
+  
+  /* 模糊脉冲动画 */
+  @keyframes blurPulse {
+    0%, 100% { filter: blur(0); }
+    50% { filter: blur(3px); }
+  }
+  
+  /* 灰度脉冲动画 */
+  @keyframes grayscalePulse {
+    0%, 100% { filter: grayscale(0); }
+    50% { filter: grayscale(1); }
+  }
+  
+  /* 色相旋转脉冲动画 */
+  @keyframes huePulse {
+    0%, 100% { filter: hue-rotate(0deg); }
+    50% { filter: hue-rotate(180deg); }
+  }
+  
+  /* 反色脉冲动画 */
+  @keyframes invertPulse {
+    0%, 100% { filter: invert(0); }
+    50% { filter: invert(1); }
+  }
+  
+  /* 棕褐色脉冲动画 */
+  @keyframes sepiaPulse {
+    0%, 100% { filter: sepia(0); }
+    50% { filter: sepia(1); }
+  }
+  
+  /* 阴影脉冲动画 */
+  @keyframes dropShadowPulse {
+    0%, 100% { filter: drop-shadow(0 0 5px rgba(0,0,0,0.3)); }
+    50% { filter: drop-shadow(0 0 20px rgba(0,0,0,0.6)); }
   }
 
-  /* 板块6：底部联系方式（和你第二张图风格一致） */
-  .section-footer {
+  /* ==================== 新增交互动画 ==================== */
+  /* 鼠标跟随光标效果 */
+  .cursor-follower {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(47, 79, 79, 0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+    transform: translate(-50%, -50%);
+  }
+  .cursor-follower.hover {
+    width: 50px;
+    height: 50px;
+    border-color: rgba(34, 139, 34, 0.8);
+    background: rgba(34, 139, 34, 0.1);
+  }
+  
+  /* 粒子背景 */
+  .particles-container {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    background: #222;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(47, 79, 79, 0.3);
+    border-radius: 50%;
+    animation: particleFloat 15s infinite;
+  }
+  @keyframes particleFloat {
+    0%, 100% {
+      transform: translateY(100vh) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100vh) rotate(720deg);
+      opacity: 0;
+    }
+  }
+  
+  /* 文字逐字显示动画 */
+  .char-reveal {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: charReveal 0.5s forwards;
+  }
+  @keyframes charReveal {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* 3D按钮效果 */
+  .btn-3d {
+    position: relative;
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #2F4F4F, #1a3a3a);
     color: #fff;
-    padding: 40px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 0 #0d2020, 0 5px 10px rgba(0,0,0,0.3);
   }
-  .footer-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 30px;
+  .btn-3d:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #0d2020, 0 8px 15px rgba(0,0,0,0.3);
   }
-  .footer-logo {
-    width: 120px;
-    height: 40px;
+  .btn-3d:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #0d2020, 0 3px 5px rgba(0,0,0,0.3);
+  }
+  
+  /* 卡片悬停3D倾斜效果 */
+  .card-3d {
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+  }
+  .card-3d:hover {
+    transform: perspective(1000px) rotateX(5deg) rotateY(-5deg) translateZ(20px);
+  }
+  
+  /* 加载动画 */
+  .loader {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(47, 79, 79, 0.3);
+    border-top-color: #2F4F4F;
+    border-radius: 50%;
+    animation: loaderSpin 1s linear infinite;
+  }
+  @keyframes loaderSpin {
+    to { transform: rotate(360deg); }
+  }
+  
+  /* 进度条动画 */
+  .progress-bar {
+    height: 4px;
+    background: linear-gradient(90deg, #2F4F4F, #228B22);
+    border-radius: 2px;
+    animation: progressFill 2s ease-out forwards;
+    transform-origin: left;
+    transform: scaleX(0);
+  }
+  @keyframes progressFill {
+    to { transform: scaleX(1); }
+  }
+  
+  /* 打字机光标 */
+  .typewriter-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: currentColor;
+    margin-left: 2px;
+    animation: cursorBlink 1s infinite;
+  }
+  
+  /* 图片遮罩揭示动画 */
+  .image-reveal {
+    position: relative;
+    overflow: hidden;
+  }
+  .image-reveal::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #2F4F4F;
+    transform: translateX(0);
+    animation: imageReveal 1s ease forwards;
+  }
+  @keyframes imageReveal {
+    to { transform: translateX(100%); }
+  }
+  
+  /* 液体按钮效果 */
+  .btn-liquid {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+  .btn-liquid::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+    z-index: -1;
+  }
+  .btn-liquid:hover::before {
+    width: 300px;
+    height: 300px;
+  }
+  
+  /* 霓虹发光边框 */
+  .neon-border {
+    position: relative;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  .neon-border::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #2F4F4F, #228B22, #2F4F4F, #228B22);
+    border-radius: inherit;
+    z-index: -1;
+    animation: neonRotate 3s linear infinite;
+    background-size: 400% 400%;
+  }
+  @keyframes neonRotate {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  /* 悬浮磁吸效果 */
+  .magnetic {
+    transition: transform 0.3s ease;
+  }
+  
+  /* 视差滚动层 */
+  .parallax-layer {
+    will-change: transform;
+  }
+  
+  /* 滚动进度指示器 */
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #2F4F4F, #228B22);
+    z-index: 10000;
+    transform-origin: left;
+    transform: scaleX(0);
+  }
+  
+  /* 文字描边动画 */
+  .text-stroke {
+    -webkit-text-stroke: 2px #2F4F4F;
+    color: transparent;
+    transition: all 0.5s ease;
+  }
+  .text-stroke:hover {
+    -webkit-text-stroke: 0;
+    color: #2F4F4F;
+  }
+  
+  /* 故障文字效果 */
+  .glitch-text {
+    position: relative;
+  }
+  .glitch-text::before,
+  .glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .glitch-text::before {
+    animation: glitch-1 0.3s infinite linear alternate-reverse;
+    color: #ff0000;
+    z-index: -1;
+  }
+  .glitch-text::after {
+    animation: glitch-2 0.3s infinite linear alternate-reverse;
+    color: #00ffff;
+    z-index: -2;
+  }
+  @keyframes glitch-1 {
+    0% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 0); }
+    20% { clip-path: inset(60% 0 10% 0); transform: translate(2px, 0); }
+    40% { clip-path: inset(40% 0 50% 0); transform: translate(-2px, 0); }
+    60% { clip-path: inset(80% 0 5% 0); transform: translate(2px, 0); }
+    80% { clip-path: inset(10% 0 70% 0); transform: translate(-2px, 0); }
+    100% { clip-path: inset(30% 0 20% 0); transform: translate(2px, 0); }
+  }
+  @keyframes glitch-2 {
+    0% { clip-path: inset(10% 0 60% 0); transform: translate(2px, 0); }
+    20% { clip-path: inset(30% 0 20% 0); transform: translate(-2px, 0); }
+    40% { clip-path: inset(70% 0 10% 0); transform: translate(2px, 0); }
+    60% { clip-path: inset(20% 0 50% 0); transform: translate(-2px, 0); }
+    80% { clip-path: inset(50% 0 30% 0); transform: translate(2px, 0); }
+    100% { clip-path: inset(0% 0 80% 0); transform: translate(-2px, 0); }
+  }
+  
+  /* 波浪分隔线 */
+  .wave-divider {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+  }
+  .wave-divider svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 60px;
+  }
+  .wave-divider .shape-fill {
+    fill: #FFF9C4;
+    animation: waveMove 3s ease-in-out infinite;
+  }
+  @keyframes waveMove {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(-25px); }
+  }
+  
+  /* 彩虹边框 */
+  .rainbow-border {
+    position: relative;
     background: #fff;
-    color: #222;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
+    border-radius: 10px;
   }
-  .footer-links {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    font-size: 14px;
+  .rainbow-border::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    border-radius: 10px;
+    z-index: -1;
+    animation: rainbowRotate 3s linear infinite;
+    background-size: 400%;
   }
-  .footer-links a {
-    color: #ccc;
-    text-decoration: none;
+  @keyframes rainbowRotate {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
-  .footer-links a:hover {
+  
+  /* 悬浮提示框 */
+  .tooltip {
+    position: relative;
+  }
+  .tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    padding: 8px 12px;
+    background: #2F4F4F;
     color: #fff;
-  }
-  .footer-contact {
-    font-size: 14px;
-    color: #ccc;
-    line-height: 1.8;
-  }
-  .footer-copyright {
-    text-align: center;
-    margin-top: 20px;
     font-size: 12px;
-    color: #888;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+  .tooltip::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    border: 6px solid transparent;
+    border-top-color: #2F4F4F;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+  .tooltip:hover::after,
+  .tooltip:hover::before {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(-5px);
+  }
+  
+  /* 骨架屏加载 */
+  .skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: skeletonLoading 1.5s infinite;
+  }
+  @keyframes skeletonLoading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+  
+  /* 脉冲圆环 */
+  .pulse-ring {
+    position: relative;
+  }
+  .pulse-ring::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    border: 2px solid #2F4F4F;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulseRing 2s ease-out infinite;
+  }
+  @keyframes pulseRing {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+  }
+  
+  /* 交错动画 */
+  .stagger-item {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  .stagger-item.visible {
+    animation: staggerFadeIn 0.6s ease forwards;
+  }
+  @keyframes staggerFadeIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ==================== 响应式设计 - 手机端适配 ==================== */
+  @media screen and (max-width: 768px) {
+    /* Logo 手机端适配 */
+    .fixed-logo {
+      font-size: 60px;
+      top: 10px;
+      left: 15px;
+      letter-spacing: 6px;
+    }
+    
+    /* 轮播图手机端适配 */
+    .slider-dots {
+      bottom: 30px;
+      gap: 10px;
+    }
+    .slider-dot {
+      width: 40px;
+      height: 40px;
+    }
+    
+    /* 融合板块手机端适配 */
+    .about-store {
+      padding: 30px 15px 50px;
+    }
+    .about-culture {
+      padding: 50px 15px 30px;
+    }
+    .store-content h2 {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    .store-content p {
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .culture-content h2 {
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+    .culture-content p {
+      font-size: 11px;
+      line-height: 1.5;
+    }
+    .diagonal-divider {
+      height: 40px;
+      bottom: -20px;
+    }
+    
+    /* 仓库板块手机端适配 */
+    .section-warehouse {
+      padding: 30px 15px;
+    }
+    .warehouse-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .warehouse-item {
+      height: 120px;
+    }
+    
+    /* 价格板块手机端适配 */
+    .section-price {
+      padding: 30px 15px;
+    }
+    .price-content h2 {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    #priceChart {
+      height: 250px;
+    }
+    
+    /* 液体板块手机端适配 */
+    .section-liquid {
+      padding: 20px 10px;
+    }
+    .liquid-title {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+    .liquid-container {
+      max-width: 100%;
+      height: 280px;
+      border-radius: 20px;
+    }
+    .liquid-drop {
+      /* 缩小液体球尺寸 */
+    }
+    .drop1 { width: 60px; height: 60px; }
+    .drop2 { width: 50px; height: 50px; }
+    .drop3 { width: 45px; height: 45px; }
+    .drop4 { width: 55px; height: 55px; }
+    .drop5 { width: 35px; height: 35px; }
+    .drop6 { width: 40px; height: 40px; }
+    .drop7 { width: 50px; height: 50px; }
+    .drop8 { width: 45px; height: 45px; }
+    .drop9 { width: 40px; height: 40px; }
+    .drop10 { width: 50px; height: 50px; }
+    .drop11 { width: 35px; height: 35px; }
+    .drop12 { width: 55px; height: 55px; }
+    .drop13 { width: 50px; height: 50px; }
+    .drop14 { width: 40px; height: 40px; }
+    .drop15 { width: 35px; height: 35px; }
+    .drop16 { width: 50px; height: 50px; }
+    
+    /* 底部手机端适配 */
+    .section-footer {
+      padding: 20px 15px;
+    }
+    .footer-inner {
+      flex-direction: column;
+      gap: 15px;
+      text-align: center;
+    }
+    .footer-links {
+      justify-content: center;
+      gap: 15px;
+    }
+    .footer-contact p {
+      font-size: 12px;
+    }
+  }
+  
+  /* 超小屏幕适配 */
+  @media screen and (max-width: 480px) {
+    .fixed-logo {
+      font-size: 48px;
+      letter-spacing: 4px;
+    }
+    
+    .warehouse-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .liquid-container {
+      height: 220px;
+    }
+    
+    .price-content h2 {
+      font-size: 16px;
+    }
+    
+    #priceChart {
+      height: 200px;
+    }
   }
 </style>
+<!-- 关键：把 Chart.js 放在 head 里，确保提前加载 -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-<!-- 板块1：全屏大封面 -->
-<section class="section-cover">
-  <h1>KUKU</h1>
-  <p></p >
-</section>
+<!-- 滚动进度条 -->
+<div class="scroll-progress" id="scrollProgress"></div>
 
-<!-- 板块2：1/3屏高 店铺简介 -->
-<section class="section-store">
-  <div class="store-content">
-    <h2>AI dolls empowered by domestic large models, built for intelligent home tutoring.</h2>
-    <p></p >
-  </div>
-</section>
+<!-- 鼠标跟随光标 -->
+<div class="cursor-follower" id="cursorFollower"></div>
 
-<!-- 板块3：视频展示区 -->
-<section class="section-video">
-  <h2>Product Introduction</h2>
-  <div class="video-wrapper">
-    <video controls>
-      <source src="https://www.w3school.com.cn/i/movie.mp4" type="video/mp4">
-    </video>
-  </div>
-</section>
+<!-- 粒子背景 -->
+<div class="particles-container" id="particlesContainer"></div>
 
-<!-- 板块4：1/2屏高 材质/文化介绍 -->
-<section class="section-intro">
-  <div class="intro-content">
-    <h2>Material & Cultural Introduction</h2>
-    <p>KUKU AI Robot is a compact, consumer-grade humanoid robot designed for AI tutoring, home education, and intelligent companionship</p >
-    <p>Powered by KUKU' s multimodal large model for voice interaction, Q&A, and learning guidance
-Functions: interactive learning, homework assistance, language practice, STEM education, and daily companionship</p >
-Built with self-developed motors, controllers, and AI algorithms for reliable performance
-Ideal for family education, smart home interaction, and youth STEM enlightenment</p >
-  </div>
-</section>
+<div class="fixed-logo"><span>KUKU</span></div>
 
-<!-- 板块5：泡泡玛特风格轮播 -->
+<!-- 板块1：轮播 -->
 <section class="section-slider">
-  <div class="slider-bg active" style="background-image:url('https://picsum.photos/1920/1080?random=1')"></div>
-  <div class="slider-bg" style="background-image:url('https://picsum.photos/1920/1080?random=2')"></div>
-  <div class="slider-bg" style="background-image:url('https://picsum.photos/1920/1080?random=3')"></div>
-  <div class="slider-bg" style="background-image:url('https://picsum.photos/1920/1080?random=4')"></div>
-  <div class="slider-bg" style="background-image:url('https://picsum.photos/1920/1080?random=5')"></div>
-
-  <div class="slider-content">
-    < img class="slider-avatar" src="https://picsum.photos/200/200?random=1" alt="商品头像">
-    <h2>商品标题一</h2>
-    <p>商品副标题/简介一</p >
-  </div>
-
+  <div class="slider-bg active" style="background-image:url('https://picui.ogmua.cn/s1/2026/03/18/69ba8b6469a95.webp')"></div>
+  <div class="slider-bg" style="background-image:url('https://picui.ogmua.cn/s1/2026/03/18/69ba89d875bc1.webp')"></div>
+  <div class="slider-bg" style="background-image:url('https://picui.ogmua.cn/s1/2026/03/18/69ba8886eed23.webp')"></div>
+  <div class="slider-bg" style="background-image:url('https://picui.ogmua.cn/s1/2026/03/18/69ba6d6d0b8d5.webp')"></div>
+  <div class="slider-bg" style="background-image:url('https://picui.ogmua.cn/s1/2026/03/18/69ba6d353cdc4.webp')"></div>
   <div class="slider-dots">
-    <div class="slider-dot active"
-         data-bg="https://picsum.photos/1920/1080?random=1"
-         data-avatar="https://picsum.photos/200/200?random=1"
-         data-title="Humanoid Robot"
-         data-sub="For home tutoring services">
-      < img src="https://picsum.photos/200/200?random=1" alt="头像">
+    <div class="slider-dot active" data-bg="https://picsum.photos/1920/1080?random=1"><img src="https://picui.ogmua.cn/s1/2026/03/17/69b92ed0b5baf.webp" alt="图1" loading="lazy" decoding="async"></div>
+    <div class="slider-dot" data-bg="https://picsum.photos/1920/1080?random=2"><img src="https://picui.ogmua.cn/s1/2026/03/17/69b9321ead8f1.webp" alt="图2" loading="lazy" decoding="async"></div>
+    <div class="slider-dot" data-bg="https://picsum.photos/1920/1080?random=3"><img src="https://picui.ogmua.cn/s1/2026/03/17/69b93932a0526.webp" alt="图3" loading="lazy" decoding="async"></div>
+    <div class="slider-dot" data-bg="https://picsum.photos/1920/1080?random=4"><img src="https://picui.ogmua.cn/s1/2026/03/17/69b939a949d8b.webp" alt="图4" loading="lazy" decoding="async"></div>
+    <div class="slider-dot" data-bg="https://picsum.photos/1920/1080?random=5"><img src="https://picui.ogmua.cn/s1/2026/03/17/69b939e84efa5.webp" alt="图5" loading="lazy" decoding="async"></div>
+  </div>
+</section>
+
+<!-- 融合板块：品牌介绍 + 产品文化 -->
+<section class="section-about">
+  <!-- 上半部分：店铺介绍 -->
+  <div class="about-store">
+    <div class="store-content">
+      <h2>KUKU is an innovative brand focused on AI smart playmates and home early education robots. With cutting-edge technology, we create warm, reliable intelligent companions to deliver fun, effective learning and interactive experiences for families worldwide.</h2>
+      <p>From R&D to production, we adhere to premium quality and safety, bringing technology into daily life as a trusted companion for every child's growth.</p>
     </div>
-    <div class="slider-dot"
-         data-bg="https://picsum.photos/1920/1080?random=2"
-         data-avatar="https://picsum.photos/200/200?random=2"
-         data-title="商品标题二"
-         data-sub="商品副标题/简介二">
-      < img src="https://picsum.photos/200/200?random=2" alt="头像">
-    </div>
-    <div class="slider-dot"
-         data-bg="https://picsum.photos/1920/1080?random=3"
-         data-avatar="https://picsum.photos/200/200?random=3"
-         data-title="商品标题三"
-         data-sub="商品副标题/简介三">
-      < img src="https://picsum.photos/200/200?random=3" alt="头像">
-    </div>
-    <div class="slider-dot"
-         data-bg="https://picsum.photos/1920/1080?random=4"
-         data-avatar="https://picsum.photos/200/200?random=4"
-         data-title="商品标题四"
-         data-sub="商品副标题/简介四">
-      < img src="https://picsum.photos/200/200?random=4" alt="头像">
-    </div>
-    <div class="slider-dot"
-         data-bg="https://picsum.photos/1920/1080?random=5"
-         data-avatar="https://picsum.photos/200/200?random=5"
-         data-title="商品标题五"
-         data-sub="商品副标题/简介五">
-      < img src="https://picsum.photos/200/200?random=5" alt="头像">
+    <div class="diagonal-divider"></div>
+  </div>
+  
+  <!-- 下半部分：产品文化 -->
+  <div class="about-culture">
+    <div class="culture-content">
+      <h2>We believe the warmth of technology is companionship. KUKU is more than a learning tool—it's part of your family. Through patient interaction and expert guidance, we walk with children as they explore the world, making growth meaningful and directed.</h2>
+      <p>Guided by our core values: Safety, Smart, Fun. Every detail is thoughtfully designed for families, turning technology into warm, caring companionship.</p>
     </div>
   </div>
 </section>
 
-<!-- 板块6：底部联系方式 -->
+<!-- 板块4：仓库图片 -->
+<section class="section-warehouse">
+  <div class="warehouse-content">
+    <h2>Warehouse Tour</h2>
+    <div class="warehouse-grid">
+      <div class="warehouse-item"><img src="https://picui.ogmua.cn/s1/2026/03/17/69b9769a9b405.webp" alt="仓库1" loading="lazy" decoding="async"></div>
+      <div class="warehouse-item"><img src="https://picui.ogmua.cn/s1/2026/03/17/69b976f32fdb1.webp" alt="仓库2" loading="lazy" decoding="async"></div>
+      <div class="warehouse-item"><img src="https://picui.ogmua.cn/s1/2026/03/17/69b978c58ac30.webp" alt="仓库3" loading="lazy" decoding="async"></div>
+      <div class="warehouse-item"><img src="https://picui.ogmua.cn/s1/2026/03/17/69b97757e8111.webp" alt="仓库4" loading="lazy" decoding="async"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 板块5：价格对比折线图 -->
+<section class="section-price">
+  <div class="price-content">
+    <h2>Our products have a significant price advantage.
+</h2>
+    <canvas id="priceChart"></canvas>
+  </div>
+</section>
+
+<!-- 板块6：液体板块 -->
+<section class="section-liquid">
+  <h2 class="liquid-title">Pre-order now, click on the liquid balls to choose your purchase method</h2>
+  <div class="liquid-container">
+    <a href="https://example.com/dark" class="liquid-drop drop1" target="_blank"></a>
+    <a href="https://example.com/light" class="liquid-drop drop2" target="_blank"></a>
+    <a href="https://example.com/dark" class="liquid-drop drop3" target="_blank"></a>
+    <a href="https://example.com/light" class="liquid-drop drop4" target="_blank"></a>
+    <a href="https://example.com/dark" class="liquid-drop drop5" target="_blank"></a>
+    <a href="https://example.com/light" class="liquid-drop drop6" target="_blank"></a>
+    <a href="https://example.com/dark" class="liquid-drop drop7" target="_blank"></a>
+    <a href="https://example.com/light" class="liquid-drop drop8" target="_blank"></a>
+    <a href="https://example.com/dark" class="liquid-drop drop9" target="_blank"></a>
+    <a href="https://example.com/light" class="liquid-drop drop10" target="_blank"></a>
+    <a href="https://example.com/dark" class="liquid-drop drop11" target="_blank"></a>
+    <a href="https://example.com/light" class="liquid-drop drop12" target="_blank"></a>
+    <a href="https://example.com/dark" class="liquid-drop drop13" target="_blank"></a>
+    <a href="https://example.com/light" class="liquid-drop drop14" target="_blank"></a>
+    <a href="https://example.com/dark" class="liquid-drop drop15" target="_blank"></a>
+    <a href="https://example.com/light" class="liquid-drop drop16" target="_blank"></a>
+    <div class="bubble bubble1"></div>
+    <div class="bubble bubble2"></div>
+    <div class="bubble bubble3"></div>
+    <div class="bubble bubble4"></div>
+    <div class="bubble bubble5"></div>
+    <div class="bubble bubble6"></div>
+  </div>
+</section>
+
+<!-- 板块7：底部 -->
 <footer class="section-footer">
   <div class="footer-inner">
-    <div class="footer-logo">
-      <!-- 这里放你的店铺LOGO，可替换为图片 -->
-     KUKU    </div>
+    <div class="footer-logo">KUKU</div>
     <div class="footer-links">
-      <a href=" ">injion we</a >
-      <a href="#">call we</a >
-      <a href="#">Privacy Policy</a >
-      <a href="#">Intellectual Property Protection</a >
+      <a href=" ">Injion We</a>
+      <a href="#">Call We </a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Intellectual Property</a>
     </div>
     <div class="footer-contact">
-      <p>地址：北京市朝阳区XX路XX号</p >
-      <p>电话：400-XXXX-XXXX</p >
-      <p>邮箱：contact@yourstore.com</p >
+      <p>Address: No. 119 Renmin Road, Chaoyang District, Beijing, China</p>
+      <p>Tel: +86 15630617971</p>
+      <p>Email: 15630617971@163.com</p>
     </div>
   </div>
   <div class="footer-copyright">
-    COPYRIGHT © 你的店铺名 ALL RIGHTS RESERVED
+    COPYRIGHT © KUKU TOYS ALL RIGHTS RESERVED
   </div>
 </footer>
 
 <script>
+  // 轮播逻辑
   const dots = document.querySelectorAll('.slider-dot');
   const bgs = document.querySelectorAll('.slider-bg');
-  const avatar = document.querySelector('.slider-avatar');
-  const title = document.querySelector('.slider-content h2');
-  const sub = document.querySelector('.slider-content p');
+  let currentIndex = 0;
+  let autoPlayInterval;
 
+  // 切换到指定轮播项
+  function goToSlide(index) {
+    dots.forEach(d => d.classList.remove('active'));
+    bgs.forEach(b => b.classList.remove('active'));
+    dots[index].classList.add('active');
+    bgs[index].classList.add('active');
+    currentIndex = index;
+  }
+
+  // 下一张
+  function nextSlide() {
+    const nextIndex = (currentIndex + 1) % bgs.length;
+    goToSlide(nextIndex);
+  }
+
+  // 启动自动轮播
+  function startAutoPlay() {
+    autoPlayInterval = setInterval(nextSlide, 3000); // 每3秒切换一次
+  }
+
+  // 停止自动轮播
+  function stopAutoPlay() {
+    clearInterval(autoPlayInterval);
+  }
+
+  // 点击小圆点切换
   dots.forEach((dot, i) => {
     dot.addEventListener('click', () => {
-      dots.forEach(d => d.classList.remove('active'));
-      bgs.forEach(b => b.classList.remove('active'));
-      dot.classList.add('active');
-      bgs[i].classList.add('active');
+      stopAutoPlay();
+      goToSlide(i);
+      startAutoPlay();
+    });
+  });
 
-      avatar.src = dot.dataset.avatar;
-      title.textContent = dot.dataset.title;
-      sub.textContent = dot.dataset.sub;
+  // 启动自动轮播
+  startAutoPlay();
+
+  // 滚动进度条
+  (function() {
+    const scrollProgress = document.getElementById('scrollProgress');
+    if (!scrollProgress) return;
+    
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = scrollTop / docHeight;
+      scrollProgress.style.transform = `scaleX(${scrollPercent})`;
+    }, { passive: true });
+  })();
+
+  // 鼠标跟随光标
+  (function() {
+    const cursor = document.getElementById('cursorFollower');
+    if (!cursor) return;
+    
+    // 检测是否为触摸设备
+    if (window.matchMedia('(pointer: coarse)').matches) {
+      cursor.style.display = 'none';
+      return;
+    }
+    
+    let mouseX = 0, mouseY = 0;
+    let cursorX = 0, cursorY = 0;
+    
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+    
+    // 添加悬停效果
+    const interactiveElements = document.querySelectorAll('a, button, .slider-dot, .warehouse-item, .liquid-drop');
+    interactiveElements.forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+    
+    function animateCursor() {
+      cursorX += (mouseX - cursorX) * 0.1;
+      cursorY += (mouseY - cursorY) * 0.1;
+      cursor.style.left = cursorX + 'px';
+      cursor.style.top = cursorY + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+  })();
+
+  // 粒子背景
+  (function() {
+    const container = document.getElementById('particlesContainer');
+    if (!container) return;
+    
+    const particleCount = 25;
+    
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.animationDelay = Math.random() * 15 + 's';
+      particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+      container.appendChild(particle);
+    }
+  })();
+
+  // 滚动视差效果 - 使用 requestAnimationFrame 优化
+  (function() {
+    const sections = document.querySelectorAll('section');
+    let ticking = false;
+    
+    function updateParallax() {
+      sections.forEach((section, index) => {
+        // 跳过带有 no-parallax 类的元素
+        if (section.classList.contains('no-parallax')) return;
+        
+        const rect = section.getBoundingClientRect();
+        const speed = 0.1 + (index * 0.05);
+        
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          const offset = (window.innerHeight - rect.top) * speed;
+          section.style.transform = `translateY(${offset * 0.1}px)`;
+        }
+      });
+      ticking = false;
+    }
+    
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(updateParallax);
+        ticking = true;
+      }
+    }, { passive: true });
+  })();
+
+  // 液体球碰撞效果
+  (function() {
+    const container = document.querySelector('.liquid-container');
+    if (!container) return;
+    
+    const drops = container.querySelectorAll('.liquid-drop');
+    const containerRect = container.getBoundingClientRect();
+    
+    // 为每个液体球添加碰撞检测
+    drops.forEach((drop, index) => {
+      drop.addEventListener('mouseenter', function() {
+        const thisRect = this.getBoundingClientRect();
+        const thisCenterX = thisRect.left + thisRect.width / 2;
+        const thisCenterY = thisRect.top + thisRect.height / 2;
+        
+        drops.forEach((otherDrop, otherIndex) => {
+          if (index === otherIndex) return;
+          
+          const otherRect = otherDrop.getBoundingClientRect();
+          const otherCenterX = otherRect.left + otherRect.width / 2;
+          const otherCenterY = otherRect.top + otherRect.height / 2;
+          
+          // 计算距离
+          const distance = Math.sqrt(
+            Math.pow(thisCenterX - otherCenterX, 2) + 
+            Math.pow(thisCenterY - otherCenterY, 2)
+          );
+          
+          // 碰撞阈值
+          const collisionThreshold = (thisRect.width + otherRect.width) / 2 + 20;
+          
+          if (distance < collisionThreshold) {
+            // 计算碰撞方向
+            const angle = Math.atan2(otherCenterY - thisCenterY, otherCenterX - thisCenterX);
+            const pushDistance = collisionThreshold - distance;
+            const pushX = Math.cos(angle) * pushDistance * 0.3;
+            const pushY = Math.sin(angle) * pushDistance * 0.3;
+            
+            // 应用碰撞效果
+            otherDrop.style.transition = 'transform 0.3s ease-out';
+            otherDrop.style.transform = `translate(${pushX}px, ${pushY}px)`;
+            
+            // 添加碰撞视觉反馈
+            otherDrop.style.filter = 'brightness(1.2)';
+            
+            // 恢复
+            setTimeout(() => {
+              otherDrop.style.transition = '';
+              otherDrop.style.transform = '';
+              otherDrop.style.filter = '';
+            }, 300);
+          }
+        });
+      });
+    });
+    
+    // 液体球之间的弹性碰撞动画 - 节流优化
+    let lastCollisionCheck = 0;
+    const collisionInterval = 100; // 每100ms检查一次
+    
+    function elasticCollision(timestamp) {
+      if (timestamp - lastCollisionCheck > collisionInterval) {
+        lastCollisionCheck = timestamp;
+        
+        drops.forEach((drop1, i) => {
+          drops.forEach((drop2, j) => {
+            if (i >= j) return;
+            
+            const rect1 = drop1.getBoundingClientRect();
+            const rect2 = drop2.getBoundingClientRect();
+            
+            // 快速边界框检测
+            if (Math.abs(rect1.left - rect2.left) > 200 || 
+                Math.abs(rect1.top - rect2.top) > 200) return;
+            
+            const center1X = rect1.left + rect1.width / 2;
+            const center1Y = rect1.top + rect1.height / 2;
+            const center2X = rect2.left + rect2.width / 2;
+            const center2Y = rect2.top + rect2.height / 2;
+            
+            const distance = Math.sqrt(
+              Math.pow(center1X - center2X, 2) + 
+              Math.pow(center1Y - center2Y, 2)
+            );
+            
+            const minDistance = (rect1.width + rect2.width) / 2;
+            
+            if (distance < minDistance && distance > 0) {
+              const scaleX = 1 + (minDistance - distance) / minDistance * 0.1;
+              const scaleY = 1 - (minDistance - distance) / minDistance * 0.1;
+              
+              drop1.style.transform = `scale(${scaleX}, ${scaleY})`;
+              drop2.style.transform = `scale(${scaleY}, ${scaleX})`;
+              
+              setTimeout(() => {
+                drop1.style.transform = '';
+                drop2.style.transform = '';
+              }, 100);
+            }
+          });
+        });
+      }
+      
+      requestAnimationFrame(elasticCollision);
+    }
+    
+    elasticCollision(0);
+  })();
+
+  // 滚动显示动画 - 元素进入视口时淡入上浮
+  (function() {
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in-up');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+    
+    // 观察所有板块
+    document.querySelectorAll('section').forEach(section => {
+      section.classList.add('scroll-hidden');
+      observer.observe(section);
+    });
+  })();
+
+  // 鼠标跟随光效
+  (function() {
+    const liquidContainer = document.querySelector('.liquid-container');
+    if (!liquidContainer) return;
+    
+    let mouseX = 0, mouseY = 0;
+    let currentX = 0, currentY = 0;
+    
+    liquidContainer.addEventListener('mousemove', (e) => {
+      const rect = liquidContainer.getBoundingClientRect();
+      mouseX = e.clientX - rect.left;
+      mouseY = e.clientY - rect.top;
+    });
+    
+    function updateLight() {
+      currentX += (mouseX - currentX) * 0.1;
+      currentY += (mouseY - currentY) * 0.1;
+      
+      liquidContainer.style.background = `radial-gradient(circle at ${currentX}px ${currentY}px, 
+        rgba(47, 79, 79, 0.3) 0%, 
+        rgba(0, 206, 209, 0.2) 30%,
+        transparent 70%)`;
+      
+      requestAnimationFrame(updateLight);
+    }
+    
+    updateLight();
+  })();
+
+  // 液体球磁性吸附效果
+  (function() {
+    const drops = document.querySelectorAll('.liquid-drop');
+    
+    drops.forEach(drop => {
+      drop.addEventListener('mousemove', (e) => {
+        const rect = drop.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        const deltaX = (e.clientX - centerX) * 0.1;
+        const deltaY = (e.clientY - centerY) * 0.1;
+        
+        drop.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1.05)`;
+      });
+      
+      drop.addEventListener('mouseleave', () => {
+        drop.style.transform = '';
+      });
+    });
+  })();
+
+  // 点击波纹效果
+  (function() {
+    document.querySelectorAll('.liquid-drop, .slider-dot, .warehouse-item').forEach(el => {
+      el.addEventListener('click', function(e) {
+        const ripple = document.createElement('span');
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+        
+        ripple.style.cssText = `
+          position: absolute;
+          width: ${size}px;
+          height: ${size}px;
+          left: ${x}px;
+          top: ${y}px;
+          background: rgba(255,255,255,0.4);
+          border-radius: 50%;
+          transform: scale(0);
+          animation: rippleEffect 0.6s ease-out;
+          pointer-events: none;
+        `;
+        
+        this.style.position = 'relative';
+        this.style.overflow = 'hidden';
+        this.appendChild(ripple);
+        
+        setTimeout(() => ripple.remove(), 600);
+      });
+    });
+  })();
+
+  // 折线图：确保 DOM 加载完成后再执行
+  document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('priceChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [
+          {
+            label: 'Domestic AI doll pricing',
+            data: [1049, 1099, 1150, 1249, 1109, 1388],
+            borderColor: '#FF6B8B',
+            backgroundColor: 'rgba(255, 107, 139, 0.1)',
+            borderWidth: 3,
+            pointBackgroundColor: '#FF6B8B',
+            tension: 0.4
+          },
+          {
+            label: 'AI Doll Prices Abroad',
+            data: [1129, 1200, 1255, 1300, 1207, 1499],
+            borderColor: '#4299E1',
+            backgroundColor: 'rgba(66, 153, 225, 0.1)',
+            borderWidth: 3,
+            pointBackgroundColor: '#4299E1',
+            tension: 0.4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: { display: true, text: 'KUKA Robot: Domestic vs. International Prices', font: { size: 18 } },
+          legend: { position: 'top', labels: { font: { size: 14 }, padding: 20 } },
+          tooltip: { mode: 'index', intersect: false }
+        },
+        scales: {
+          y: { beginAtZero: false, title: { display: true, text: 'USD（¢）', font: { size: 14 } }, grid: { color: 'rgba(0, 0, 0, 0.05)' } },
+          x: { grid: { display: false } }
+        }
+      }
     });
   });
 </script>
